@@ -40,7 +40,7 @@ class Redis
             $this->options = new Options\Redis($options);
         }
 
-        $client = new Client/Factory::factory($this->options);
+        $client = Client\Factory::factory($this->options);
 
         $this->setClient($client);
 
