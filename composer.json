@@ -1,10 +1,11 @@
 {
-    "name": "geometria-lab/zf2-library",
-    "description": "Zend Framework 2 library extending",
+    "name": "geometria-lab/rediska2",
+    "description": "PHP client for Redis based on phpredis extension",
     "type": "library",
     "keywords": [
-        "framework",
-        "zf2"
+        "redis",
+        "rediska",
+        "phpredis"
     ],
     "homepage": "http://geometria-lab.net/",
     "require": {
@@ -12,7 +13,7 @@
     },
     "autoload": {
         "psr-0": {
-            "GeometriaLab": "library/"
+            "Rediska2": "library/"
         }
     },
     "config": {
@@ -22,8 +23,5 @@
         "branch-alias": {
             "dev-master": "master"
         }
-    },
-    "require-dev" : {
-        "zendframework/zendframework" : "dev-master"
     }
 }
