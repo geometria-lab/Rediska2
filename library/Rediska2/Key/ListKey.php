@@ -2,6 +2,7 @@
 
 namespace Rediska2\Key;
 
-class ListKey {
+class ListKey extends AbstractKey
+{
 
 }

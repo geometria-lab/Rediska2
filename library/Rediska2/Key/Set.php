@@ -2,7 +2,7 @@
 
 namespace Rediska2\Key;
 
-class Set
+class Set extends AbstractKey
 {
 
 }

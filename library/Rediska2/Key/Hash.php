@@ -2,7 +2,7 @@
 
 namespace Rediska2\Key;
 
-class Hash
+class Hash extends AbstractKey
 {
 
 }

@@ -2,7 +2,7 @@
 
 namespace Rediska2\Key;
 
-class String
+class String extends AbstractKey
 {
 
 }

@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * Redis server
+ */
+
+defined('TESTS_REDIS_HOST') || define('TESTS_REDIS_HOST', "127.0.0.1");
+defined('TESTS_REDIS_PORT') || define('TESTS_REDIS_PORT', 6379);
+
+/**
+ * PHPUnit Code Coverage / Test Report
+ */
+defined('TESTS_GENERATE_REPORT') || define('TESTS_GENERATE_REPORT', false);
+defined('TESTS_GENERATE_REPORT_TARGET') || define('TESTS_GENERATE_REPORT_TARGET', '/path/to/target');

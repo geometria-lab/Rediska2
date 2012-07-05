@@ -2,7 +2,7 @@
 
 namespace Rediska2\Key;
 
-class SortedSet
+class SortedSet extends AbstractKey
 {
 
 }
