@@ -24,7 +24,7 @@ class StringTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(123, $this->key->getRedis()->get('test'));
     }
 
-    public function getValue()
+    public function testGetValue()
     {
         $this->key->getRedis()->get('test', 123);
 
