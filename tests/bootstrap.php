@@ -38,7 +38,7 @@ set_include_path(implode(PATH_SEPARATOR, $path));
  * Setup autoloading
  */
 include __DIR__ .  '/autoload.php';
-include __DIR__ . '/../vendor/autoload.php';
+#include __DIR__ . '/../vendor/autoload.php';
 
 /*
  * Load the user-defined test configuration file, if it exists; otherwise, load
@@ -49,6 +49,10 @@ if (is_readable($tests . DIRECTORY_SEPARATOR . 'configuration.php')) {
 } else {
     require_once $tests . DIRECTORY_SEPARATOR . 'configuration.php.dist';
 }
+
+$manager = \Rediska2\Manager::getInstance();
+$manager->set('default', new \Redis());
+$manager->get('default')->connect(TESTS_REDIS_HOST, TESTS_REDIS_PORT);
 
 if (defined('TESTS_GENERATE_REPORT') && TESTS_GENERATE_REPORT === true) {
     $codeCoverageFilter = PHP_CodeCoverage_Filter::getInstance();

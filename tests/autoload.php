@@ -35,4 +35,4 @@ function Rediska2Test_Autoloader($class)
 
     return false;
 }
-spl_autoload_register('Rediska2_Autoloader', true, true);
+spl_autoload_register('Rediska2Test_Autoloader', true, true);

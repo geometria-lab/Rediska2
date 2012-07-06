@@ -12,9 +12,9 @@ abstract class AbstractKey
     protected $name;
 
     /**
-     * @var \Redis|string
+     * @var string
      */
-    protected $redis;
+    protected $redis = 'default';
 
     public function __construct($name, array $options = array())
     {
