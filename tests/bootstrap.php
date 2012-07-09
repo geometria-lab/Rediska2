@@ -50,9 +50,19 @@ if (is_readable($tests . DIRECTORY_SEPARATOR . 'configuration.php')) {
     require_once $tests . DIRECTORY_SEPARATOR . 'configuration.php.dist';
 }
 
+/**
+ * Add Redis instance to manager
+ */
+
+if (!extension_loaded('Redis')) {
+    throw new \Exception('Redis extension must be installed: https://github.com/nicolasff/phpredis/');
+}
+
 $manager = \Rediska2\Manager::getInstance();
 $manager->set('default', new \Redis());
 $manager->get('default')->connect(TESTS_REDIS_HOST, TESTS_REDIS_PORT);
+
+
 
 if (defined('TESTS_GENERATE_REPORT') && TESTS_GENERATE_REPORT === true) {
     $codeCoverageFilter = PHP_CodeCoverage_Filter::getInstance();

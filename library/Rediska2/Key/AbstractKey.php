@@ -83,14 +83,50 @@ abstract class AbstractKey
     public function rename($newName, $overwrite = true)
     {
         if ($overwrite) {
-            return $this->getRedis()->rename($this->getName(), $newName);
+            $result = $this->getRedis()->rename($this->getName(), $newName);
         } else {
-            return $this->getRedis()->renameNx($this->getName(), $newName);
+            $result = $this->getRedis()->renameNx($this->getName(), $newName);
         }
+
+        $this->setName($newName);
+
+        return $result;
     }
 
     public function moveToDb($dbIndex)
     {
         return $this->getRedis()->move($this->getName(), $dbIndex);
+    }
+
+    public function expire($seconds, $isMilliseconds = false)
+    {
+        if ($isMilliseconds) {
+            throw new \RuntimeException('Not implemented yet');
+        } else {
+            return $this->getRedis()->expire($this->getName(), $seconds);
+        }
+    }
+
+    public function expireAt($timestamp, $isMilliseconds = false)
+    {
+        if ($isMilliseconds) {
+            throw new \RuntimeException('Not implemented yet');
+        } else {
+            return $this->getRedis()->expireAt($this->getName(), $timestamp);
+        }
+    }
+
+    public function getLifetime($milliseconds = false)
+    {
+        if ($milliseconds) {
+            return $this->getRedis()->pttl($this->getName());
+        } else {
+            return $this->getRedis()->ttl($this->getName());
+        }
+    }
+
+    public function persist()
+    {
+        return $this->getRedis()->persist($this->getName());
     }
 }
