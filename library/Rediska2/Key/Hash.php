@@ -2,7 +2,7 @@
 
 namespace Rediska2\Key;
 
-class Hash extends AbstractKey implements \Countable
+class Hash extends AbstractKey implements \Countable, \IteratorAggregate
 {
     public function set($field, $value, $overwrite = true)
     {
@@ -94,7 +94,7 @@ class Hash extends AbstractKey implements \Countable
 
     public function __unset($field)
     {
-        return $this->remove(array($field));
+        return $this->remove($field);
     }
 
     /**
@@ -104,5 +104,14 @@ class Hash extends AbstractKey implements \Countable
     public function count()
     {
         return $this->getLength();
+    }
+
+    /**
+     * Implements IteratorAggregate
+     */
+
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->getAll());
     }
 }

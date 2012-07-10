@@ -35,68 +35,87 @@ class HashTest extends TestCase
 
     public function testHas()
     {
-        $this->markTestIncomplete();
-//        return $this->getRedis()->hExists($this->getName(), $field);
+        $this->hash->getRedis()->hSet('test', 'test', 1);
+        $this->assertTrue($this->hash->has('test'));
     }
 
     public function testGet()
     {
-        $this->markTestIncomplete();
-//        return $this->getRedis()->hGet($this->getName(), $field);
+        $this->hash->getRedis()->hSet('test', 'test', 1);
+        $this->assertEquals(1, $this->hash->get('test'));
     }
 
     public function testGetMultiple()
     {
-        $this->markTestIncomplete();
-//        return $this->getRedis()->hMGet($this->getName(), $fields);
+        $this->hash->getRedis()->hSet('test', 'test', 1);
+        $this->hash->getRedis()->hSet('test', 'test2', 2);
+
+        $this->assertEquals(array('test' => 1, 'test2' => 2), $this->hash->getMultiple(array('test', 'test2')));
     }
 
     public function testGetAll()
     {
-        $this->markTestIncomplete();
-//        return $this->getRedis()->hGetAll($this->getName());
+        $this->hash->getRedis()->hSet('test', 'test', 1);
+        $this->hash->getRedis()->hSet('test', 'test2', 2);
+
+        $this->assertEquals(array('test' => 1, 'test2' => 2), $this->hash->getAll());
     }
 
     public function testGetFields()
     {
-        $this->markTestIncomplete();
-//        return $this->getRedis()->hKeys($this->getName());
+        $this->hash->getRedis()->hSet('test', 'test', 1);
+        $this->hash->getRedis()->hSet('test', 'test2', 2);
+
+        $this->assertEquals(array('test', 'test2'), $this->hash->getFields());
     }
 
     public function testGetValues()
     {
-        $this->markTestIncomplete();
-//        return $this->getRedis()->hVals($this->getName());
+        $this->hash->getRedis()->hSet('test', 'test', 1);
+        $this->hash->getRedis()->hSet('test', 'test2', 2);
+
+        $this->assertEquals(array(1, 2), $this->hash->getValues());
     }
 
     public function testGetLength()
     {
-        $this->markTestIncomplete();
-//        return $this->getRedis()->hLen($this->getName());
+        $this->hash->getRedis()->hSet('test', 'test', 1);
+        $this->hash->getRedis()->hSet('test', 'test2', 2);
+
+        $this->assertEquals(2, $this->hash->getLength());
     }
 
     public function testRemove()
     {
-        $this->markTestIncomplete();
-//        $arguments = array_merge(array($this->getName()), $fields);
-//        return call_user_func_array(array($this->getRedis(), 'hDel'), $arguments);
+        $this->hash->getRedis()->hSet('test', 'test', 1);
+        $this->hash->getRedis()->hSet('test', 'test2', 2);
+
+        $this->assertEquals(1, $this->hash->remove('test'));
+
+        $this->assertFalse($this->hash->getRedis()->hExists('test', 'test'));
+        $this->assertTrue($this->hash->getRedis()->hExists('test', 'test2'));
     }
 
     public function testRemoveMultiple()
     {
-        $this->markTestIncomplete();
-//        $arguments = array_merge(array($this->getName()), $fields);
-//        return call_user_func_array(array($this->getRedis(), 'hDel'), $arguments);
+        $this->hash->getRedis()->hSet('test', 'test', 1);
+        $this->hash->getRedis()->hSet('test', 'test2', 2);
+        $this->hash->getRedis()->hSet('test', 'test3', 3);
+
+        $this->assertEquals(2, $this->hash->removeMultiple(array('test', 'test2')));
+
+        $this->assertFalse($this->hash->getRedis()->hExists('test', 'test'));
+        $this->assertFalse($this->hash->getRedis()->hExists('test', 'test2'));
+        $this->assertTrue($this->hash->getRedis()->hExists('test', 'test3'));
     }
 
     public function testIncrement()
     {
-        $this->markTestIncomplete();
-//        if (is_float($amount)) {
-//            return $this->getRedis()->hIncrByFloat($this->getName(), $field, $amount);
-//        } else {
-//            return $this->getRedis()->hIncrBy($this->getName(), $field, $amount);
-//        }
+        $this->hash->getRedis()->hSet('test', 'test', 1);
+
+        $this->assertEquals(2, $this->hash->increment('test'));
+
+        $this->assertEquals(2, $this->hash->getRedis()->hget('test', 'test'));
     }
 
     /**
@@ -105,31 +124,61 @@ class HashTest extends TestCase
 
     public function testMagicSet()
     {
-        $this->markTestIncomplete();
-//        return $this->set($field, $value);
+        $this->hash->test = 1;
+        $this->assertEquals(1, $this->hash->getRedis()->hGet('test', 'test'));
     }
 
     public function testMagicGet()
     {
-        $this->markTestIncomplete();
-//        return $this->get($field);
+        $this->hash->getRedis()->hSet('test', 'test', 1);
+        $this->assertEquals(1, $this->hash->test);
     }
 
     public function testMagicIsset()
     {
-        $this->markTestIncomplete();
-//        return $this->has($field);
+        $this->hash->getRedis()->hSet('test', 'test', 1);
+        $this->assertTrue(isset($this->hash->test));
+        $this->assertFalse(isset($this->hash->test2));
     }
 
     public function testMagicUnset()
     {
-        $this->markTestIncomplete();
-//        return $this->remove(array($field));
+        $this->hash->getRedis()->hSet('test', 'test', 1);
+        $this->hash->getRedis()->hSet('test', 'test2', 2);
+
+        unset($this->hash->test);
+
+        $this->assertFalse($this->hash->getRedis()->hExists('test', 'test'));
+        $this->assertTrue($this->hash->getRedis()->hExists('test', 'test2'));
     }
 
     public function testCount()
     {
-        $this->markTestIncomplete();
-//        return $this->getLength();
+        $this->hash->getRedis()->hSet('test', 'test', 1);
+        $this->hash->getRedis()->hSet('test', 'test2', 2);
+
+        $this->assertEquals(2, count($this->hash));
+    }
+
+    public function testGetIterator()
+    {
+        $fields = array(
+            'test'  => 1,
+            'test2' => 2,
+            'test3' => 3
+        );
+
+        $this->hash->getRedis()->hMset('test', $fields);
+
+        $count = 0;
+        reset($fields);
+        foreach($this->hash as $field => $value) {
+            $this->assertEquals(key($fields), $field);
+            $this->assertEquals(current($fields), $value);
+            next($fields);
+            $count++;
+        }
+
+        $this->assertEquals(3, $count);
     }
 }
