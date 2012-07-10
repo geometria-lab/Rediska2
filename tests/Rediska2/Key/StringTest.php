@@ -2,10 +2,11 @@
 
 namespace Rediska2Test\Key;
 
-use Rediska2\Manager,
-    Rediska2\Key\String;
+use Rediska2Test\TestCase;
 
-class StringTest extends \PHPUnit_Framework_TestCase
+use Rediska2\Key\String;
+
+class StringTest extends TestCase
 {
     /**
      * @var \Rediska2\Key\String
@@ -15,12 +16,6 @@ class StringTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->string = new String('test');
-    }
-
-    public function tearDown()
-    {
-        $manager = Manager::getInstance();
-        $manager->get('default')->flushAll();
     }
 
     public function testDelete()

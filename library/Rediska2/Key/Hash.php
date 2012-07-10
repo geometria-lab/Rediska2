@@ -4,17 +4,6 @@ namespace Rediska2\Key;
 
 class Hash extends AbstractKey implements \Countable
 {
-    public function remove($fields)
-    {
-        $arguments = array_merge(array($this->getName()), $fields);
-        return call_user_func_array(array($this->getRedis(), 'hDel'), $arguments);
-    }
-
-    public function has($field)
-    {
-        return $this->getRedis()->hExists($this->getName(), $field);
-    }
-
     public function set($field, $value, $overwrite = true)
     {
         if ($overwrite) {
@@ -27,6 +16,11 @@ class Hash extends AbstractKey implements \Countable
     public function setMultiple($fieldsAndValue)
     {
         return $this->getRedis()->hMSet($this->getName(), $fieldsAndValue);
+    }
+
+    public function has($field)
+    {
+        return $this->getRedis()->hExists($this->getName(), $field);
     }
 
     public function get($field)
@@ -57,6 +51,17 @@ class Hash extends AbstractKey implements \Countable
     public function getLength()
     {
         return $this->getRedis()->hLen($this->getName());
+    }
+
+    public function remove($field)
+    {
+        return $this->getRedis()->hDel($this->getName(), $field);
+    }
+
+    public function removeMultiple($fields)
+    {
+        $arguments = array_merge(array($this->getName()), $fields);
+        return call_user_func_array(array($this->getRedis(), 'hDel'), $arguments);
     }
 
     public function increment($field, $amount = 1)
