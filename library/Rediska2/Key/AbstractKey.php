@@ -129,4 +129,9 @@ abstract class AbstractKey
     {
         return $this->getRedis()->persist($this->getName());
     }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }
