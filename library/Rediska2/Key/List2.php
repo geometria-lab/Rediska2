@@ -2,7 +2,7 @@
 
 namespace Rediska2\Key;
 
-class List2 extends AbstractSet
+class List2 extends AbstractSet implements \ArrayAccess
 {
     public function shift()
     {
@@ -99,5 +99,35 @@ class List2 extends AbstractSet
     public function appendIfExists($value)
     {
         return $this->getRedis()->rPushx($this->getName(), $value);
+    }
+
+    /**
+     * Implements items array access
+     */
+
+    public function offsetSet($offset, $value)
+    {
+        if (is_null($offset)) {
+            $this->append($value);
+        } else {
+            $this->set($offset, $value);
+        }
+
+        return $value;
+    }
+
+    public function offsetExists($offset)
+    {
+        return (boolean)$this->get($offset);
+    }
+
+    public function offsetUnset($offset)
+    {
+        throw new Rediska_Key_Exception("Redis not support delete by index. User 'remove' method for delete by value");
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->get($offset);
     }
 }
